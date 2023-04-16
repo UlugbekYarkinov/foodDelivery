@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,10 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.fooddelivery.ui.theme.CardItemBg
-import com.example.fooddelivery.ui.theme.FoodDeliveryTheme
-import com.example.fooddelivery.ui.theme.IconColor
-import com.example.fooddelivery.ui.theme.Yellow500
+import com.example.fooddelivery.ui.theme.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +27,46 @@ class MainActivity : ComponentActivity() {
             FoodDeliveryTheme {
 
             }
+        }
+    }
+}
+
+@Composable
+fun HomeScreen() {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(start = 30.dp, top = 48.dp, end = 17.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            BoxWithRes(
+                resId = R.drawable.menu,
+                bgColor = Yellow500,
+                description = "Menu"
+            )
+            Row {
+                Icon(
+                    painter = painterResource(id = R.drawable.location),
+                    contentDescription = "Location",
+                    modifier = Modifier.size(16.dp),
+                    tint = Orange500
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = "California, US")
+                Spacer(modifier = Modifier.width(8.dp))
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_down),
+                    contentDescription = "Location",
+                    modifier = Modifier.size(16.dp),
+                    tint = Orange500
+                )
+            }
+            BoxWithRes(
+                resId = R.drawable.search,
+                description = "Search"
+            )
         }
     }
 }
@@ -65,6 +100,6 @@ fun BoxWithRes(
 @Composable
 fun DefaultPreview() {
     FoodDeliveryTheme {
-        BoxWithRes(resId = R.drawable.menu, bgColor = Yellow500, description = "Menu")
+        HomeScreen()
     }
 }
