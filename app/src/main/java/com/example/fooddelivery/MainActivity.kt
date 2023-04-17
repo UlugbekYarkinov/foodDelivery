@@ -7,11 +7,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -70,6 +69,52 @@ fun HomeScreen() {
                 CategoryData(redId = R.drawable.pizza, title = "Pizza"), //must be taken from database
                 CategoryData(redId = R.drawable.hamburger, title = "Burger"),
                 CategoryData(redId = R.drawable.drinks, title = "Drinks")
+            ))
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Text(
+                text = "Best Price",
+                style = Typography.bodyLarge,
+                fontSize = 22.sp,
+                color = BlackTextColor
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            BestPriceList(bestPriceList = listOf(
+                BestPriceData(
+                    R.drawable.salad_pesto_pizza,
+                    title = "Salad Pesto Pizza",
+                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
+                    price = 10.55,
+                    calorie = 540.0,
+                    scheduleTime = 20.0,
+                    rate = 5.0,
+                    ingredients = listOf(
+                        R.drawable.ing1,
+                        R.drawable.ing2,
+                        R.drawable.ing3,
+                        R.drawable.ing4,
+                        R.drawable.ing5,
+                    )
+                ),
+                BestPriceData(
+                    R.drawable.primavera_pizza,
+                    title = "Primavera Pizza",
+                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
+                    price = 12.55,
+                    calorie = 440.0,
+                    scheduleTime = 30.0,
+                    rate = 4.5,
+                    ingredients = listOf(
+                        R.drawable.ing1,
+                        R.drawable.ing2,
+                        R.drawable.ing3,
+                        R.drawable.ing4,
+                        R.drawable.ing5,
+                    )
+                )
             ))
         }
     }
@@ -195,7 +240,11 @@ fun CategoryList(categories: List<CategoryData>) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween) {
         items(categories.size) {
-            index ->  CategoryItem(categoryData = categories[index], selectedIndex = selectedIndex, index = index)
+            index ->  CategoryItem(
+            categoryData = categories[index],
+            selectedIndex = selectedIndex,
+            index = index
+        )
         }
     }
 }
@@ -228,6 +277,135 @@ fun CategoryItem(categoryData: CategoryData, selectedIndex: MutableState<Int>, i
                 color = if(selectedIndex.value == index) Color.White else BlackTextColor
             )
         }
+    }
+}
+
+@Composable
+fun BestPriceList(bestPriceList: List<BestPriceData>) {
+    LazyColumn(modifier = Modifier
+        .fillMaxWidth()
+
+    ) {
+        items(bestPriceList.size) {
+            index ->  BestPriceItem(bestPriceData = bestPriceList[index])
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+    }
+}
+@Composable
+fun BestPriceItem(bestPriceData: BestPriceData) {
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(176.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(176.dp)
+                .padding(end = 13.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(CardItemBg))
+
+        Column(modifier = Modifier.padding(start = 20.dp, top = 20.dp)) {
+            Box(
+                modifier = Modifier.height(40.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.crown),
+                        contentDescription = "Crown",
+                        modifier = Modifier.size(24.dp)
+                    )
+
+                    Spacer(modifier = Modifier.width(11.dp))
+
+                    Text(
+                        text = "Best Selling",
+                        style = Typography.displaySmall,
+                        fontSize = 14.sp,
+                        color = TextColor
+                    )
+                }
+            }
+
+            Box(
+                modifier = Modifier.height(40.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = bestPriceData.title,
+                    style = Typography.bodyLarge,
+                    fontSize = 18.sp,
+                    color = BlackTextColor
+                )
+            }
+
+            Box(modifier = Modifier.height(40.dp), contentAlignment = Alignment.Center) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "$",
+                        style = Typography.bodyLarge,
+                        fontSize = 14.sp,
+                        color = Orange500
+                    )
+
+                    Text(
+                        text = "${bestPriceData.price}",
+                        style = Typography.bodyLarge,
+                        fontSize = 20.sp,
+                        color = BlackTextColor
+                    )
+                }
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomStart)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(width = 60.dp, height = 40.dp)
+                        .clip(RoundedCornerShape(bottomStart = 10.dp, topEnd = 18.dp))
+                        .background(Yellow500),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.add),
+                        contentDescription = "Add",
+                        modifier = Modifier.size(24.dp),
+                        tint = Color.White
+                    )
+                }
+                
+                Spacer(modifier = Modifier.width(40.dp))
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.star),
+                        contentDescription = "Star",
+                        modifier = Modifier.size(16.dp),
+                        tint = BlackTextColor
+                    )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Text(text = "${bestPriceData.rate}", style = Typography.bodyLarge, color = BlackTextColor)
+                }
+            }
+        }
+
+        Image(
+            painter = painterResource(id = bestPriceData.resId),
+            contentDescription = "",
+            modifier = Modifier
+                .size(156.dp)
+                .align(
+                    Alignment.CenterEnd
+                )
+        )
     }
 }
 
