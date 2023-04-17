@@ -3,9 +3,7 @@ package com.example.fooddelivery
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -28,21 +26,42 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.fooddelivery.ui.theme.*
 
+object Destinations {
+    const val Home = "Home"
+    const val Detail = "Detail"
+
+    object DetailArgs {
+        const val foodData = "foodData"
+    }
+}
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FoodDeliveryTheme {
-                HomeScreen()
+                val navController = rememberNavController()
+
+                NavHost(navController = navController, startDestination = Destinations.Home, builder = {
+                    composable(Destinations.Home) {
+                        HomeScreen(navController = navController)
+                    }
+                    composable(Destinations.Detail) {
+                        DetailScreen(navController = navController)
+                    }
+                })
             }
         }
     }
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     Box(modifier = Modifier
         .fillMaxSize()
         .padding(start = 30.dp, top = 48.dp, end = 17.dp)
@@ -63,13 +82,18 @@ fun HomeScreen() {
                 color = BlackTextColor
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
-            CategoryList(categories = listOf(
-                CategoryData(redId = R.drawable.pizza, title = "Pizza"), //must be taken from database
-                CategoryData(redId = R.drawable.hamburger, title = "Burger"),
-                CategoryData(redId = R.drawable.drinks, title = "Drinks")
-            ))
+            CategoryList(
+                categories = listOf(
+                    CategoryData(
+                        redId = R.drawable.pizza,
+                        title = "Pizza"
+                    ), //must be taken from database
+                    CategoryData(redId = R.drawable.hamburger, title = "Burger"),
+                    CategoryData(redId = R.drawable.drinks, title = "Drinks")
+                )
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -115,8 +139,15 @@ fun HomeScreen() {
                         R.drawable.ing5,
                     )
                 )
-            ))
+            ), navController = navController)
         }
+    }
+}
+
+@Composable
+fun DetailScreen(navController: NavController) {
+    Box(modifier = Modifier.fillMaxWidth().background(Orange500)) {
+        
     }
 }
 
@@ -237,7 +268,9 @@ fun CategoryList(categories: List<CategoryData>) {
     }
 
     LazyRow(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = 13.dp),
         horizontalArrangement = Arrangement.SpaceBetween) {
         items(categories.size) {
             index ->  CategoryItem(
@@ -281,19 +314,18 @@ fun CategoryItem(categoryData: CategoryData, selectedIndex: MutableState<Int>, i
 }
 
 @Composable
-fun BestPriceList(bestPriceList: List<BestPriceData>) {
+fun BestPriceList(bestPriceList: List<BestPriceData>, navController: NavController) {
     LazyColumn(modifier = Modifier
         .fillMaxWidth()
-
     ) {
         items(bestPriceList.size) {
-            index ->  BestPriceItem(bestPriceData = bestPriceList[index])
+            index ->  BestPriceItem(bestPriceData = bestPriceList[index], navController = navController)
             Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }
 @Composable
-fun BestPriceItem(bestPriceData: BestPriceData) {
+fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
     Box(modifier = Modifier
         .fillMaxWidth()
         .height(176.dp)) {
@@ -303,6 +335,9 @@ fun BestPriceItem(bestPriceData: BestPriceData) {
                 .height(176.dp)
                 .padding(end = 13.dp)
                 .clip(RoundedCornerShape(10.dp))
+                .clickable {
+                    navController.navigate(Destinations.Detail)
+                }
                 .background(CardItemBg))
 
         Column(modifier = Modifier.padding(start = 20.dp, top = 20.dp)) {
@@ -413,6 +448,7 @@ fun BestPriceItem(bestPriceData: BestPriceData) {
 @Composable
 fun DefaultPreview() {
     FoodDeliveryTheme {
-        HomeScreen()
+        val navController = rememberNavController()
+        HomeScreen(navController = navController)
     }
 }
