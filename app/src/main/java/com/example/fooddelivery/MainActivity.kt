@@ -7,6 +7,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -146,8 +148,75 @@ fun HomeScreen(navController: NavController) {
 
 @Composable
 fun DetailScreen(navController: NavController) {
-    Box(modifier = Modifier.fillMaxWidth().background(Orange500)) {
-        
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 30.dp, top = 48.dp, end = 17.dp)
+    ) {
+        val data = navController.previousBackStackEntry?.arguments?.getParcelable<BestPriceData>(Destinations.DetailArgs.foodData) //need to think to replace deprecated code
+
+        if (data != null) {
+            Column {
+                DetailHeader()
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                Image(
+                    painter = painterResource(id = data.resId),
+                    contentDescription = "",
+                    modifier = Modifier.size(275.dp)
+                )
+                
+            }
+        } else {
+            //TODO: design the exception style
+        }
+    }
+}
+
+@Composable
+fun DetailHeader() {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = 13.dp)
+    ) {
+        BoxWithRes(
+            resId = R.drawable.menu,
+            bgColor = Yellow500,
+            description = "Menu"
+        )
+
+        Box(modifier = Modifier
+            .size(40.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(CardItemBg),
+            contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier.size(24.dp)) {
+                Icon(
+                    painter = painterResource(id = R.drawable.bag),
+                    contentDescription = "Basket",
+                    modifier = Modifier.size(24.dp),
+                    tint = IconColor
+                )
+                Box(
+                    modifier = Modifier
+                        .padding(top = 2.dp, end = 2.dp)
+                        .size(8.dp)
+                        .clip(CircleShape)
+                        .background(Color.White)
+                        .align(Alignment.TopEnd)
+                ) {
+                    Box(modifier = Modifier
+                        .size(6.dp)
+                        .clip(CircleShape)
+                        .background(Yellow500)) {
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -336,6 +405,9 @@ fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
                 .padding(end = 13.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
+                    navController.currentBackStackEntry?.arguments = Bundle().apply {
+                        putParcelable(Destinations.DetailArgs.foodData, bestPriceData)
+                    }
                     navController.navigate(Destinations.Detail)
                 }
                 .background(CardItemBg))
