@@ -2,22 +2,19 @@
 
 package com.example.fooddelivery
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,10 +50,10 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(navController = navController, startDestination = Destinations.Home, builder = {
                     composable(Destinations.Home) {
-                        HomeScreen(navController = navController)
+                        HomeScreenScaffold(navController = navController)
                     }
                     composable(Destinations.Detail) {
-                        DetailScreen(navController = navController)
+                        DetailScreenScaffold(navController = navController)
                     }
                 })
             }
@@ -64,213 +61,458 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .padding(start = 30.dp, top = 48.dp, end = 17.dp)
-    ) {
-        Column {
-            Header()
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            OrderNowBox()
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Text(
-                text = "Categories",
-                style = Typography.bodyLarge,
-                fontSize = 22.sp,
-                color = BlackTextColor
-            )
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            CategoryList(
-                categories = listOf(
-                    CategoryData(
-                        redId = R.drawable.pizza,
-                        title = "Pizza"
-                    ), //must be taken from database
-                    CategoryData(redId = R.drawable.hamburger, title = "Burger"),
-                    CategoryData(redId = R.drawable.drinks, title = "Drinks")
-                )
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Text(
-                text = "Best Price",
-                style = Typography.bodyLarge,
-                fontSize = 22.sp,
-                color = BlackTextColor
-            )
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            BestPriceList(bestPriceList = listOf(
-                BestPriceData(
-                    R.drawable.salad_pesto_pizza,
-                    title = "Salad Pesto Pizza",
-                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
-                    price = 10.55,
-                    calorie = 540.0,
-                    scheduleTime = 20,
-                    rate = 5.0,
-                    ingredients = listOf(
-                        R.drawable.ing1,
-                        R.drawable.ing2,
-                        R.drawable.ing3,
-                        R.drawable.ing4,
-                        R.drawable.ing5,
-                    )
-                ),
-                BestPriceData(
-                    R.drawable.primavera_pizza,
-                    title = "Primavera Pizza",
-                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
-                    price = 12.55,
-                    calorie = 440.0,
-                    scheduleTime = 30,
-                    rate = 4.5,
-                    ingredients = listOf(
-                        R.drawable.ing1,
-                        R.drawable.ing2,
-                        R.drawable.ing3,
-                        R.drawable.ing4,
-                        R.drawable.ing5,
-                    )
-                )
-            ), navController = navController)
-        }
-    }
-}
-
-@Composable
-fun DetailScreen(navController: NavController) {
+fun HomeScreenScaffold(navController: NavController) {
     val scrollState = rememberScrollState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 30.dp, top = 48.dp, end = 17.dp)
-    ) {
-        val data = navController.previousBackStackEntry?.arguments?.getParcelable<BestPriceData>(Destinations.DetailArgs.foodData) //need to think to replace deprecated code
+    Scaffold(
 
-        if (data != null) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.verticalScroll(state = scrollState)
-            ) {
-                DetailHeader(navController)
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Image(
-                    painter = painterResource(id = data.resId),
-                    contentDescription = "",
-                    modifier = Modifier.size(275.dp)
-                )
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp)
-                ) {
-                    Column(verticalArrangement = Arrangement.SpaceBetween) {
-                        Text(
-                            text = data.title,
-                            style = Typography.bodyLarge,
-                            fontSize = 23.sp,
-                            color = BlackTextColor
-                        )
-
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                text = "$",
-                                style = Typography.bodyLarge,
-                                fontSize = 20.sp,
-                                color = Orange500
-                            )
-
-                            Text(
-                                text = "${data.price}",
-                                style = Typography.bodyLarge,
-                                fontSize = 28.sp,
-                                color = BlackTextColor
-                            )
-                        }
-                    }
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        BoxWithRes(
-                            resId = R.drawable.minus,
-                            description = "Minus",
-                            boxSize = 36,
-                            iconColor = BlackTextColor
-                        )
-
-                        Spacer(modifier = Modifier.width(14.dp))
-
-                        Text(
-                            text = "1",
-                            style = Typography.bodyLarge,
-                            fontSize = 28.sp,
-                            color = BlackTextColor
-                        )
-
-                        Spacer(modifier = Modifier.width(14.dp))
-
-                        BoxWithRes(
-                            resId = R.drawable.add,
-                            description = "Add",
-                            boxSize = 36,
-                            iconColor = Color.White,
-                            bgColor = Yellow500
-                        )
-                    }
-                }
+        topBar = {
+            // App bar content
+            Box(modifier = Modifier.padding(start = 20.dp, top = 10.dp, end = 20.dp)) {
+                Header()
+            }
+        },
+        content = {
+            // Body content
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 20.dp, top = 60.dp, end = 17.dp)
+                .verticalScroll(state = scrollState)) {
+                OrderNowBox()
 
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
-                    text = data.description,
+                    text = "Categories",
                     style = Typography.bodyLarge,
-                    color = TextColor,
-                    modifier = Modifier.fillMaxWidth()
+                    fontSize = 22.sp,
+                    color = BlackTextColor,
+                    modifier = Modifier.padding(horizontal = 30.dp)
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                DetailFoodInfoBox(data = data)
+                CategoryList(
+                    categories = listOf(
+                        CategoryData(
+                            redId = R.drawable.pizza,
+                            title = "Pizza"
+                        ),
+                        CategoryData(redId = R.drawable.hamburger, title = "Burger"),
+                        CategoryData(redId = R.drawable.drinks, title = "Drinks")
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Text(
+                    text = "Best Price",
+                    style = Typography.bodyLarge,
+                    fontSize = 22.sp,
+                    color = BlackTextColor,
+                    modifier = Modifier.padding(horizontal = 30.dp)
+                )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                DetailIngredientsBox(data = data)
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                Box(
-                    modifier = Modifier
-                        .size(width = 203.dp, height = 56.dp)
-                        .clip(RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp))
-                        .background(Yellow500),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "Add to card", style = Typography.bodyLarge, color = Color.White)
-                }
+                BestPriceList(
+                    bestPriceList = listOf(
+                        BestPriceData(
+                            R.drawable.salad_pesto_pizza,
+                            title = "Salad Pesto Pizza",
+                            description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
+                            price = 10.55,
+                            calorie = 540.0,
+                            scheduleTime = 20,
+                            rate = 5.0,
+                            ingredients = listOf(
+                                R.drawable.ing1,
+                                R.drawable.ing2,
+                                R.drawable.ing3,
+                                R.drawable.ing4,
+                                R.drawable.ing5,
+                            )
+                        ),
+                        BestPriceData(
+                            R.drawable.primavera_pizza,
+                            title = "Primavera Pizza",
+                            description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
+                            price = 12.55,
+                            calorie = 440.0,
+                            scheduleTime = 30,
+                            rate = 4.5,
+                            ingredients = listOf(
+                                R.drawable.ing1,
+                                R.drawable.ing2,
+                                R.drawable.ing3,
+                                R.drawable.ing4,
+                                R.drawable.ing5,
+                            )
+                        )
+                    ),
+                    navController = navController
+                )
             }
-        } else {
-            //TODO: design the exception style
-        }
-    }
+        },
+    )
 }
+
+
+//@Composable
+//fun HomeScreen(navController: NavController) {
+//    val scrollState = rememberScrollState()
+//
+//    Box(modifier = Modifier
+//        .fillMaxSize()
+//        .padding(start = 30.dp, top = 48.dp, end = 17.dp)
+//    ) {
+//        Column(modifier = Modifier.verticalScroll(state = scrollState)) {
+//            Header()
+//
+//            Spacer(modifier = Modifier.height(32.dp))
+//
+//            OrderNowBox()
+//
+//            Spacer(modifier = Modifier.height(30.dp))
+//
+//            Text(
+//                text = "Categories",
+//                style = Typography.bodyLarge,
+//                fontSize = 22.sp,
+//                color = BlackTextColor
+//            )
+//
+//            Spacer(modifier = Modifier.height(10.dp))
+//
+//            CategoryList(
+//                categories = listOf(
+//                    CategoryData(
+//                        redId = R.drawable.pizza,
+//                        title = "Pizza"
+//                    ), //must be taken from database
+//                    CategoryData(redId = R.drawable.hamburger, title = "Burger"),
+//                    CategoryData(redId = R.drawable.drinks, title = "Drinks")
+//                )
+//            )
+//
+//            Spacer(modifier = Modifier.height(20.dp))
+//
+//            Text(
+//                text = "Best Price",
+//                style = Typography.bodyLarge,
+//                fontSize = 22.sp,
+//                color = BlackTextColor
+//            )
+//
+//            Spacer(modifier = Modifier.height(10.dp))
+//
+//            BestPriceList(bestPriceList = listOf(
+//                BestPriceData(
+//                    R.drawable.salad_pesto_pizza,
+//                    title = "Salad Pesto Pizza",
+//                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
+//                    price = 10.55,
+//                    calorie = 540.0,
+//                    scheduleTime = 20,
+//                    rate = 5.0,
+//                    ingredients = listOf(
+//                        R.drawable.ing1,
+//                        R.drawable.ing2,
+//                        R.drawable.ing3,
+//                        R.drawable.ing4,
+//                        R.drawable.ing5,
+//                    )
+//                ),
+//                BestPriceData(
+//                    R.drawable.primavera_pizza,
+//                    title = "Primavera Pizza",
+//                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
+//                    price = 12.55,
+//                    calorie = 440.0,
+//                    scheduleTime = 30,
+//                    rate = 4.5,
+//                    ingredients = listOf(
+//                        R.drawable.ing1,
+//                        R.drawable.ing2,
+//                        R.drawable.ing3,
+//                        R.drawable.ing4,
+//                        R.drawable.ing5,
+//                    )
+//                )
+//            ), navController = navController)
+//        }
+//    }
+//}
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DetailScreenScaffold(navController: NavController) {
+    val scrollState = rememberScrollState()
+    var numberOfMeal by remember { mutableStateOf(1) }
+
+    val data = navController.previousBackStackEntry?.arguments?.getParcelable<BestPriceData>(Destinations.DetailArgs.foodData)
+
+    Scaffold(
+        topBar = {
+            Box(modifier = Modifier.padding(start = 20.dp, top = 10.dp, end = 20.dp)) {
+                DetailHeader(navController)
+            }
+        },
+        content = {
+            if (data != null) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(state = scrollState)
+                        .padding(start = 30.dp, top = 48.dp, end = 17.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = painterResource(id = data.resId),
+                        contentDescription = "",
+                        modifier = Modifier.size(275.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(80.dp)
+                    ) {
+                        Column(verticalArrangement = Arrangement.SpaceBetween) {
+                            Text(
+                                text = data.title,
+                                style = Typography.bodyLarge,
+                                fontSize = 23.sp,
+                                color = BlackTextColor
+                            )
+
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = "$",
+                                    style = Typography.bodyLarge,
+                                    fontSize = 20.sp,
+                                    color = Orange500
+                                )
+
+                                Text(
+                                    text = "${data.price}",
+                                    style = Typography.bodyLarge,
+                                    fontSize = 28.sp,
+                                    color = BlackTextColor
+                                )
+                            }
+                        }
+
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            BoxWithRes(
+                                resId = R.drawable.minus,
+                                description = "Minus",
+                                boxSize = 36,
+                                iconColor = BlackTextColor
+                            )
+
+                            Spacer(modifier = Modifier.width(14.dp))
+
+                            Text(
+                                text = "$numberOfMeal",
+                                style = Typography.bodyLarge,
+                                fontSize = 28.sp,
+                                color = BlackTextColor
+                            )
+
+                            Spacer(modifier = Modifier.width(14.dp))
+
+                            BoxWithRes(
+                                resId = R.drawable.add,
+                                description = "Add",
+                                boxSize = 36,
+                                iconColor = Color.White,
+                                bgColor = Yellow500
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Text(
+                        text = data.description,
+                        style = Typography.bodyLarge,
+                        color = TextColor,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    DetailFoodInfoBox(data = data)
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    DetailIngredientsBox(data = data)
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+//                    Box(
+//                        modifier = Modifier
+//                            .size(width = 203.dp, height = 56.dp)
+//                            .clip(RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp))
+//                            .background(Yellow500),
+//                        contentAlignment = Alignment.Center
+//                    ) {
+//                        Text(text = "Add to cart", style = Typography.bodyLarge, color = Color.White)
+//                    }
+                }
+            } else {
+                // TODO: design the exception style
+            }
+        },
+        floatingActionButton = {
+            // FAB content
+            FloatingActionButton(
+                onClick = { /* Handle FAB click */ },
+                modifier = Modifier.padding(16.dp),
+                containerColor =  Color(0xFFFDC913)
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Add")
+            }
+        }
+    )
+}
+
+
+//@Composable
+//fun DetailScreen(navController: NavController) {
+//    val scrollState = rememberScrollState()
+//    var numberOfMeal = remember {
+//        mutableStateOf(1)
+//    }
+//
+//    Box(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .padding(start = 30.dp, top = 48.dp, end = 17.dp)
+//    ) {
+//        val data = navController.previousBackStackEntry?.arguments?.getParcelable<BestPriceData>(Destinations.DetailArgs.foodData) //need to think to replace deprecated code
+//
+//        if (data != null) {
+//            Column(
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                modifier = Modifier.verticalScroll(state = scrollState)
+//            ) {
+//                DetailHeader(navController)
+//
+//                Spacer(modifier = Modifier.height(12.dp))
+//
+//                Image(
+//                    painter = painterResource(id = data.resId),
+//                    contentDescription = "",
+//                    modifier = Modifier.size(275.dp)
+//                )
+//
+//                Spacer(modifier = Modifier.height(20.dp))
+//
+//                Row(
+//                    verticalAlignment = Alignment.CenterVertically,
+//                    horizontalArrangement = Arrangement.SpaceBetween,
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(80.dp)
+//                ) {
+//                    Column(verticalArrangement = Arrangement.SpaceBetween) {
+//                        Text(
+//                            text = data.title,
+//                            style = Typography.bodyLarge,
+//                            fontSize = 23.sp,
+//                            color = BlackTextColor
+//                        )
+//
+//                        Row(verticalAlignment = Alignment.CenterVertically) {
+//                            Text(
+//                                text = "$",
+//                                style = Typography.bodyLarge,
+//                                fontSize = 20.sp,
+//                                color = Orange500
+//                            )
+//
+//                            Text(
+//                                text = "${data.price}",
+//                                style = Typography.bodyLarge,
+//                                fontSize = 28.sp,
+//                                color = BlackTextColor
+//                            )
+//                        }
+//                    }
+//
+//                    Row(verticalAlignment = Alignment.CenterVertically) {
+//                        BoxWithRes(
+//                            resId = R.drawable.minus,
+//                            description = "Minus",
+//                            boxSize = 36,
+//                            iconColor = BlackTextColor
+//                        )
+//
+//                        Spacer(modifier = Modifier.width(14.dp))
+//
+//                        Text(
+//                            text = "${numberOfMeal.value}",
+//                            style = Typography.bodyLarge,
+//                            fontSize = 28.sp,
+//                            color = BlackTextColor
+//                        )
+//
+//                        Spacer(modifier = Modifier.width(14.dp))
+//
+//                        BoxWithRes(
+//                            resId = R.drawable.add,
+//                            description = "Add",
+//                            boxSize = 36,
+//                            iconColor = Color.White,
+//                            bgColor = Yellow500
+//                        )
+//                    }
+//                }
+//
+//                Spacer(modifier = Modifier.height(20.dp))
+//
+//                Text(
+//                    text = data.description,
+//                    style = Typography.bodyLarge,
+//                    color = TextColor,
+//                    modifier = Modifier.fillMaxWidth()
+//                )
+//
+//                Spacer(modifier = Modifier.height(10.dp))
+//
+//                DetailFoodInfoBox(data = data)
+//
+//                Spacer(modifier = Modifier.height(10.dp))
+//
+//                DetailIngredientsBox(data = data)
+//
+//                Spacer(modifier = Modifier.height(10.dp))
+//
+//                Box(
+//                    modifier = Modifier
+//                        .size(width = 203.dp, height = 56.dp)
+//                        .clip(RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp))
+//                        .background(Yellow500),
+//                    contentAlignment = Alignment.Center
+//                ) {
+//                    Text(text = "Add to card", style = Typography.bodyLarge, color = Color.White)
+//                }
+//            }
+//        } else {
+//            //TODO: design the exception style
+//        }
+//    }
+//}
 
 @Composable
 fun DetailHeader(navController: NavController) {
@@ -598,11 +840,11 @@ fun CategoryItem(categoryData: CategoryData, selectedIndex: MutableState<Int>, i
 
 @Composable
 fun BestPriceList(bestPriceList: List<BestPriceData>, navController: NavController) {
-    LazyColumn(modifier = Modifier
+    Column(modifier = Modifier
         .fillMaxWidth()
     ) {
-        items(bestPriceList.size) {
-            index ->  BestPriceItem(bestPriceData = bestPriceList[index], navController = navController)
+        for(item in bestPriceList) {
+            BestPriceItem(bestPriceData = item, navController = navController)
             Spacer(modifier = Modifier.height(10.dp))
         }
     }
@@ -635,7 +877,7 @@ fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
                     Image(
                         painter = painterResource(id = R.drawable.crown),
                         contentDescription = "Crown",
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(34.dp)
                     )
 
                     Spacer(modifier = Modifier.width(11.dp))
@@ -735,6 +977,6 @@ fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
 fun DefaultPreview() {
     FoodDeliveryTheme {
         val navController = rememberNavController()
-        HomeScreen(navController = navController)
+        HomeScreenScaffold(navController = navController)
     }
 }
