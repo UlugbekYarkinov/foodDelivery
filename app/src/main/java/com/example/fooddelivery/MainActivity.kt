@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.fooddelivery
 
 import android.os.Bundle
@@ -159,7 +161,7 @@ fun DetailScreen(navController: NavController) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 DetailHeader()
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 Image(
                     painter = painterResource(id = data.resId),
@@ -239,79 +241,25 @@ fun DetailScreen(navController: NavController) {
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(10.dp))
+
+                DetailFoodInfoBox(data = data)
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                DetailIngredientsBox(data = data)
+
+                Spacer(modifier = Modifier.height(10.dp))
 
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp)
-                        .clip(RoundedCornerShape(14.dp))
-                        .background(CardItemBg)
-                        .padding(15.dp)
+                        .size(width = 203.dp, height = 56.dp)
+                        .clip(RoundedCornerShape(bottomStart = 18.dp, topEnd = 18.dp))
+                        .background(Yellow500),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Row {
-                            Image(
-                                painter = painterResource(id = R.drawable.calori),
-                                contentDescription = "Caloric",
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Text(
-                                text = "${data.calorie}",
-                                style = Typography.bodyLarge,
-                                color = BlackTextColor
-                            )
-                        }
-                        
-                        Divider(
-                            color = DividerColor,
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .width(1.dp)
-                        )
-
-                        Row {
-                            Image(
-                                painter = painterResource(id = R.drawable.star),
-                                contentDescription = "Star",
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Text(
-                                text = "${data.rate}",
-                                style = Typography.bodyLarge,
-                                color = BlackTextColor
-                            )
-                        }
-
-                        Divider(
-                            color = DividerColor,
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .width(1.dp)
-                        )
-
-                        Row {
-                            Image(
-                                painter = painterResource(id = R.drawable.schedule),
-                                contentDescription = "Schedule",
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Text(
-                                text = "${data.scheduleTime}",
-                                style = Typography.bodyLarge,
-                                color = BlackTextColor
-                            )
-                        }
-                    }
+                    Text(text = "Add to card", style = Typography.bodyLarge, color = Color.White)
                 }
-                
             }
         } else {
             //TODO: design the exception style
@@ -361,6 +309,116 @@ fun DetailHeader() {
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun DetailFoodInfoBox(data: BestPriceData) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(CardItemBg)
+            .padding(15.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row {
+                Image(
+                    painter = painterResource(id = R.drawable.calori),
+                    contentDescription = "Caloric",
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "${data.calorie} kcal",
+                    style = Typography.bodyLarge,
+                    color = BlackTextColor
+                )
+            }
+
+            Divider(
+                color = DividerColor,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(1.dp)
+            )
+
+            Row {
+                Image(
+                    painter = painterResource(id = R.drawable.star),
+                    contentDescription = "Star",
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "${data.rate}",
+                    style = Typography.bodyLarge,
+                    color = BlackTextColor
+                )
+            }
+
+            Divider(
+                color = DividerColor,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(1.dp)
+            )
+
+            Row {
+                Image(
+                    painter = painterResource(id = R.drawable.schedule),
+                    contentDescription = "Schedule",
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "${data.scheduleTime} min",
+                    style = Typography.bodyLarge,
+                    color = BlackTextColor
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun DetailIngredientsBox(data: BestPriceData) {
+    Text(
+        text = "Ingredients",
+        style = Typography.bodyLarge,
+        fontSize = 22.sp,
+        color = BlackTextColor,
+        modifier = Modifier.fillMaxWidth()
+    )
+
+    Spacer(modifier = Modifier.height(10.dp))
+
+    LazyRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        items(data.ingredients.size) {
+                index -> Box(modifier = Modifier
+            .size(56.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(CardItemBg),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = painterResource(id = data.ingredients[index]),
+                contentDescription = "",
+                modifier = Modifier.size(width = 46.dp, height = 36.dp)
+            )
+        }
         }
     }
 }
