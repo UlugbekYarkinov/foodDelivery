@@ -12,6 +12,6 @@ data class BestPriceData(
     val rate: Double,
     val description: String,
     val calorie: Double,
-    val scheduleTime: Double,
+    val scheduleTime: Int,
     val ingredients: List<Int>
 ): Parcelable
