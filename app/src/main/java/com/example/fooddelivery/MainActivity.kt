@@ -311,12 +311,21 @@ fun DetailScreenScaffold(navController: NavController) {
                             }
                         }
 
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                            modifier = Modifier.size(width = 130.dp, height = 36.dp)
+                        ) {
                             BoxWithRes(
                                 resId = R.drawable.minus,
                                 description = "Minus",
                                 boxSize = 36,
-                                iconColor = BlackTextColor
+                                iconColor = BlackTextColor,
+                                onButtonClick = {
+                                    if (numberOfMeal > 1) {
+                                        numberOfMeal--
+                                    }
+                                }
                             )
 
                             Spacer(modifier = Modifier.width(14.dp))
@@ -335,7 +344,10 @@ fun DetailScreenScaffold(navController: NavController) {
                                 description = "Add",
                                 boxSize = 36,
                                 iconColor = Color.White,
-                                bgColor = Yellow500
+                                bgColor = Yellow500,
+                                onButtonClick = {
+                                    numberOfMeal++
+                                }
                             )
                         }
                     }
@@ -527,7 +539,9 @@ fun DetailHeader(navController: NavController) {
             resId = R.drawable.arrow_left,
             bgColor = Yellow500,
             description = "Left",
-            navController = navController
+            onButtonClick = {
+                navController.popBackStack()
+            }
         )
 
         Box(modifier = Modifier
@@ -763,7 +777,7 @@ fun BoxWithRes(
     iconColor: Color? = IconColor,
     boxSize: Int? = 40,
     iconSize: Int = 24,
-    navController: NavController? = null
+    onButtonClick: (() -> Unit)? = null
     ) {
         Box(
             modifier = Modifier
@@ -771,7 +785,7 @@ fun BoxWithRes(
                 .clip(RoundedCornerShape(10.dp))
                 .background(bgColor!!)
                 .clickable {
-                    navController?.popBackStack()
+                    onButtonClick?.invoke()
                 },
             contentAlignment = Alignment.Center
         ) {
