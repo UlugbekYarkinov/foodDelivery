@@ -150,6 +150,8 @@ fun HomeScreen(navController: NavController) {
 
 @Composable
 fun DetailScreen(navController: NavController) {
+    val scrollState = rememberScrollState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -158,7 +160,10 @@ fun DetailScreen(navController: NavController) {
         val data = navController.previousBackStackEntry?.arguments?.getParcelable<BestPriceData>(Destinations.DetailArgs.foodData) //need to think to replace deprecated code
 
         if (data != null) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.verticalScroll(state = scrollState)
+            ) {
                 DetailHeader(navController)
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -254,7 +259,7 @@ fun DetailScreen(navController: NavController) {
                 Box(
                     modifier = Modifier
                         .size(width = 203.dp, height = 56.dp)
-                        .clip(RoundedCornerShape(bottomStart = 18.dp, topEnd = 18.dp))
+                        .clip(RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp))
                         .background(Yellow500),
                     contentAlignment = Alignment.Center
                 ) {
@@ -524,7 +529,7 @@ fun BoxWithRes(
                 .clip(RoundedCornerShape(10.dp))
                 .background(bgColor!!)
                 .clickable {
-                           navController?.popBackStack()
+                    navController?.popBackStack()
                 },
             contentAlignment = Alignment.Center
         ) {
