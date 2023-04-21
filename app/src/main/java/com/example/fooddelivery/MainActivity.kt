@@ -7,9 +7,9 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -115,7 +115,7 @@ fun HomeScreen(navController: NavController) {
                     description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
                     price = 10.55,
                     calorie = 540.0,
-                    scheduleTime = 20.0,
+                    scheduleTime = 20,
                     rate = 5.0,
                     ingredients = listOf(
                         R.drawable.ing1,
@@ -131,7 +131,7 @@ fun HomeScreen(navController: NavController) {
                     description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
                     price = 12.55,
                     calorie = 440.0,
-                    scheduleTime = 30.0,
+                    scheduleTime = 30,
                     rate = 4.5,
                     ingredients = listOf(
                         R.drawable.ing1,
@@ -156,7 +156,7 @@ fun DetailScreen(navController: NavController) {
         val data = navController.previousBackStackEntry?.arguments?.getParcelable<BestPriceData>(Destinations.DetailArgs.foodData) //need to think to replace deprecated code
 
         if (data != null) {
-            Column {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 DetailHeader()
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -166,6 +166,151 @@ fun DetailScreen(navController: NavController) {
                     contentDescription = "",
                     modifier = Modifier.size(275.dp)
                 )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                ) {
+                    Column(verticalArrangement = Arrangement.SpaceBetween) {
+                        Text(
+                            text = data.title,
+                            style = Typography.bodyLarge,
+                            fontSize = 23.sp,
+                            color = BlackTextColor
+                        )
+
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = "$",
+                                style = Typography.bodyLarge,
+                                fontSize = 20.sp,
+                                color = Orange500
+                            )
+
+                            Text(
+                                text = "${data.price}",
+                                style = Typography.bodyLarge,
+                                fontSize = 28.sp,
+                                color = BlackTextColor
+                            )
+                        }
+                    }
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        BoxWithRes(
+                            resId = R.drawable.minus,
+                            description = "Minus",
+                            boxSize = 36,
+                            iconColor = BlackTextColor
+                        )
+
+                        Spacer(modifier = Modifier.width(14.dp))
+
+                        Text(
+                            text = "1",
+                            style = Typography.bodyLarge,
+                            fontSize = 28.sp,
+                            color = BlackTextColor
+                        )
+
+                        Spacer(modifier = Modifier.width(14.dp))
+
+                        BoxWithRes(
+                            resId = R.drawable.add,
+                            description = "Add",
+                            boxSize = 36,
+                            iconColor = Color.White,
+                            bgColor = Yellow500
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Text(
+                    text = data.description,
+                    style = Typography.bodyLarge,
+                    color = TextColor,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(CardItemBg)
+                        .padding(15.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row {
+                            Image(
+                                painter = painterResource(id = R.drawable.calori),
+                                contentDescription = "Caloric",
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(
+                                text = "${data.calorie}",
+                                style = Typography.bodyLarge,
+                                color = BlackTextColor
+                            )
+                        }
+                        
+                        Divider(
+                            color = DividerColor,
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(1.dp)
+                        )
+
+                        Row {
+                            Image(
+                                painter = painterResource(id = R.drawable.star),
+                                contentDescription = "Star",
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(
+                                text = "${data.rate}",
+                                style = Typography.bodyLarge,
+                                color = BlackTextColor
+                            )
+                        }
+
+                        Divider(
+                            color = DividerColor,
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(1.dp)
+                        )
+
+                        Row {
+                            Image(
+                                painter = painterResource(id = R.drawable.schedule),
+                                contentDescription = "Schedule",
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(
+                                text = "${data.scheduleTime}",
+                                style = Typography.bodyLarge,
+                                color = BlackTextColor
+                            )
+                        }
+                    }
+                }
                 
             }
         } else {
@@ -184,9 +329,9 @@ fun DetailHeader() {
             .padding(end = 13.dp)
     ) {
         BoxWithRes(
-            resId = R.drawable.menu,
+            resId = R.drawable.arrow_left,
             bgColor = Yellow500,
-            description = "Menu"
+            description = "Left"
         )
 
         Box(modifier = Modifier
