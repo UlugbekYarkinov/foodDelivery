@@ -160,7 +160,7 @@ fun HomeScreenScaffold(navController: NavController) {
     )
 }
 
-
+//Use it in case Scaffold does not work
 //@Composable
 //fun HomeScreen(navController: NavController) {
 //    val scrollState = rememberScrollState()
@@ -386,7 +386,7 @@ fun DetailScreenScaffold(navController: NavController) {
     )
 }
 
-
+//Use it in case Scaffold does not work
 //@Composable
 //fun DetailScreen(navController: NavController) {
 //    val scrollState = rememberScrollState()
