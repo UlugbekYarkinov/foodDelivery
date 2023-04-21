@@ -159,7 +159,7 @@ fun DetailScreen(navController: NavController) {
 
         if (data != null) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                DetailHeader()
+                DetailHeader(navController)
 
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -268,7 +268,7 @@ fun DetailScreen(navController: NavController) {
 }
 
 @Composable
-fun DetailHeader() {
+fun DetailHeader(navController: NavController) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -279,7 +279,8 @@ fun DetailHeader() {
         BoxWithRes(
             resId = R.drawable.arrow_left,
             bgColor = Yellow500,
-            description = "Left"
+            description = "Left",
+            navController = navController
         )
 
         Box(modifier = Modifier
@@ -514,12 +515,17 @@ fun BoxWithRes(
     bgColor: Color? = CardItemBg,
     iconColor: Color? = IconColor,
     boxSize: Int? = 40,
-    iconSize: Int = 24) {
+    iconSize: Int = 24,
+    navController: NavController? = null
+    ) {
         Box(
             modifier = Modifier
                 .size(boxSize!!.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .background(bgColor!!),
+                .background(bgColor!!)
+                .clickable {
+                           navController?.popBackStack()
+                },
             contentAlignment = Alignment.Center
         ) {
             Icon(
