@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -64,10 +65,7 @@ fun HomeScreenScaffold(navController: NavController) {
 
                 CategoryList(
                     categories = listOf(
-                        CategoryData(
-                            redId = R.drawable.pizza,
-                            title = "Pizza"
-                        ),
+                        CategoryData(redId = R.drawable.pizza, title = "Pizza"),
                         CategoryData(redId = R.drawable.hamburger, title = "Burger"),
                         CategoryData(redId = R.drawable.drinks, title = "Drinks")
                     )
@@ -89,8 +87,8 @@ fun HomeScreenScaffold(navController: NavController) {
                     bestPriceList = listOf(
                         BestPriceData(
                             R.drawable.salad_pesto_pizza,
-                            title = "Salad Pesto Pizza",
-                            description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
+                            title = stringResource(id = R.string.salad_pesto_pizza_title),
+                            description = stringResource(id = R.string.salad_pesto_pizza_description),
                             price = 10.55,
                             calorie = 540.0,
                             scheduleTime = 20,
@@ -105,8 +103,8 @@ fun HomeScreenScaffold(navController: NavController) {
                         ),
                         BestPriceData(
                             R.drawable.primavera_pizza,
-                            title = "Primavera Pizza",
-                            description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
+                            title = stringResource(id = R.string.primavera_pizza_title),
+                            description = stringResource(id = R.string.primavera_pizza_description),
                             price = 12.55,
                             calorie = 440.0,
                             scheduleTime = 30,
@@ -126,93 +124,6 @@ fun HomeScreenScaffold(navController: NavController) {
         },
     )
 }
-
-//Use it in case Scaffold does not work
-//@Composable
-//fun HomeScreen(navController: NavController) {
-//    val scrollState = rememberScrollState()
-//
-//    Box(modifier = Modifier
-//        .fillMaxSize()
-//        .padding(start = 30.dp, top = 48.dp, end = 17.dp)
-//    ) {
-//        Column(modifier = Modifier.verticalScroll(state = scrollState)) {
-//            Header()
-//
-//            Spacer(modifier = Modifier.height(32.dp))
-//
-//            OrderNowBox()
-//
-//            Spacer(modifier = Modifier.height(30.dp))
-//
-//            Text(
-//                text = "Categories",
-//                style = Typography.bodyLarge,
-//                fontSize = 22.sp,
-//                color = BlackTextColor
-//            )
-//
-//            Spacer(modifier = Modifier.height(10.dp))
-//
-//            CategoryList(
-//                categories = listOf(
-//                    CategoryData(
-//                        redId = R.drawable.pizza,
-//                        title = "Pizza"
-//                    ), //must be taken from database
-//                    CategoryData(redId = R.drawable.hamburger, title = "Burger"),
-//                    CategoryData(redId = R.drawable.drinks, title = "Drinks")
-//                )
-//            )
-//
-//            Spacer(modifier = Modifier.height(20.dp))
-//
-//            Text(
-//                text = "Best Price",
-//                style = Typography.bodyLarge,
-//                fontSize = 22.sp,
-//                color = BlackTextColor
-//            )
-//
-//            Spacer(modifier = Modifier.height(10.dp))
-//
-//            BestPriceList(bestPriceList = listOf(
-//                BestPriceData(
-//                    R.drawable.salad_pesto_pizza,
-//                    title = "Salad Pesto Pizza",
-//                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
-//                    price = 10.55,
-//                    calorie = 540.0,
-//                    scheduleTime = 20,
-//                    rate = 5.0,
-//                    ingredients = listOf(
-//                        R.drawable.ing1,
-//                        R.drawable.ing2,
-//                        R.drawable.ing3,
-//                        R.drawable.ing4,
-//                        R.drawable.ing5,
-//                    )
-//                ),
-//                BestPriceData(
-//                    R.drawable.primavera_pizza,
-//                    title = "Primavera Pizza",
-//                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
-//                    price = 12.55,
-//                    calorie = 440.0,
-//                    scheduleTime = 30,
-//                    rate = 4.5,
-//                    ingredients = listOf(
-//                        R.drawable.ing1,
-//                        R.drawable.ing2,
-//                        R.drawable.ing3,
-//                        R.drawable.ing4,
-//                        R.drawable.ing5,
-//                    )
-//                )
-//            ), navController = navController)
-//        }
-//    }
-//}
 
 @Composable
 fun Header() {
@@ -484,3 +395,90 @@ fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
         )
     }
 }
+
+//Use it in case Scaffold does not work
+//@Composable
+//fun HomeScreen(navController: NavController) {
+//    val scrollState = rememberScrollState()
+//
+//    Box(modifier = Modifier
+//        .fillMaxSize()
+//        .padding(start = 30.dp, top = 48.dp, end = 17.dp)
+//    ) {
+//        Column(modifier = Modifier.verticalScroll(state = scrollState)) {
+//            Header()
+//
+//            Spacer(modifier = Modifier.height(32.dp))
+//
+//            OrderNowBox()
+//
+//            Spacer(modifier = Modifier.height(30.dp))
+//
+//            Text(
+//                text = "Categories",
+//                style = Typography.bodyLarge,
+//                fontSize = 22.sp,
+//                color = BlackTextColor
+//            )
+//
+//            Spacer(modifier = Modifier.height(10.dp))
+//
+//            CategoryList(
+//                categories = listOf(
+//                    CategoryData(
+//                        redId = R.drawable.pizza,
+//                        title = "Pizza"
+//                    ), //must be taken from database
+//                    CategoryData(redId = R.drawable.hamburger, title = "Burger"),
+//                    CategoryData(redId = R.drawable.drinks, title = "Drinks")
+//                )
+//            )
+//
+//            Spacer(modifier = Modifier.height(20.dp))
+//
+//            Text(
+//                text = "Best Price",
+//                style = Typography.bodyLarge,
+//                fontSize = 22.sp,
+//                color = BlackTextColor
+//            )
+//
+//            Spacer(modifier = Modifier.height(10.dp))
+//
+//            BestPriceList(bestPriceList = listOf(
+//                BestPriceData(
+//                    R.drawable.salad_pesto_pizza,
+//                    title = "Salad Pesto Pizza",
+//                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
+//                    price = 10.55,
+//                    calorie = 540.0,
+//                    scheduleTime = 20,
+//                    rate = 5.0,
+//                    ingredients = listOf(
+//                        R.drawable.ing1,
+//                        R.drawable.ing2,
+//                        R.drawable.ing3,
+//                        R.drawable.ing4,
+//                        R.drawable.ing5,
+//                    )
+//                ),
+//                BestPriceData(
+//                    R.drawable.primavera_pizza,
+//                    title = "Primavera Pizza",
+//                    description = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.",
+//                    price = 12.55,
+//                    calorie = 440.0,
+//                    scheduleTime = 30,
+//                    rate = 4.5,
+//                    ingredients = listOf(
+//                        R.drawable.ing1,
+//                        R.drawable.ing2,
+//                        R.drawable.ing3,
+//                        R.drawable.ing4,
+//                        R.drawable.ing5,
+//                    )
+//                )
+//            ), navController = navController)
+//        }
+//    }
+//}

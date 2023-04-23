@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">foodDelivery</string>
+    <string name="salad_pesto_pizza_title">Salad Pesto Pizza</string>
+    <string name="salad_pesto_pizza_description">Creating a harmonious balance of flavors and textures that will leave your taste buds dancing with delight. Each bite of this Salad Pesto Pizza is a symphony of freshness, creaminess, and crunch, making it a truly irresistible and delicious culinary experience.</string>
+    <string name="primavera_pizza_title">Primavera Pizza</string>
+    <string name="primavera_pizza_description">The Primavera Pizza is a thin-crust delight bursting with the fresh flavors of spring. Topped with vibrant cherry tomatoes, crisp bell peppers, tender artichoke hearts, and tangy red onions, it\'s a medley of colorful vegetables complemented by creamy mozzarella and parmesan cheeses. A culinary masterpiece that is visually appealing and irresistibly delicious.</string>
 </resources>
