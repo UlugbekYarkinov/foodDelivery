@@ -313,14 +313,12 @@ fun DetailIngredientsBox(data: BestPriceData) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         items(data.ingredients.size) {
                 index -> Box(modifier = Modifier
             .size(56.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .background(CardItemBg),
+            .clip(RoundedCornerShape(10.dp)),
             contentAlignment = Alignment.Center
         ) {
             Image(
