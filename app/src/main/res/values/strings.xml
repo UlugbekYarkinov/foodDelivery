@@ -1,7 +1,17 @@
 <resources>
     <string name="app_name">foodDelivery</string>
+
     <string name="salad_pesto_pizza_title">Salad Pesto Pizza</string>
     <string name="salad_pesto_pizza_description">Creating a harmonious balance of flavors and textures that will leave your taste buds dancing with delight. Each bite of this Salad Pesto Pizza is a symphony of freshness, creaminess, and crunch, making it a truly irresistible and delicious culinary experience.</string>
+
     <string name="primavera_pizza_title">Primavera Pizza</string>
     <string name="primavera_pizza_description">The Primavera Pizza is a thin-crust delight bursting with the fresh flavors of spring. Topped with vibrant cherry tomatoes, crisp bell peppers, tender artichoke hearts, and tangy red onions, it\'s a medley of colorful vegetables complemented by creamy mozzarella and parmesan cheeses. A culinary masterpiece that is visually appealing and irresistibly delicious.</string>
+
+    <string name="hamburger_with_cheese_description">Indulge in the ultimate comfort food with our delectable hamburger with cheese! Savor the juicy, perfectly grilled beef patty, topped with a generous layer of melted, gooey cheese that adds a burst of rich and savory flavor. Complete with fresh lettuce, juicy tomatoes, and a soft, toasted bun, this classic favorite is sure to satisfy your cravings and leave you wanting more. Bite into cheesy goodness with every mouthwatering bite of our delicious hamburger with cheese!</string>
+
+    <string name="hamburger_with_chicken_description">Introducing our scrumptious Chicken Burger - a mouthwatering combination of juicy, tender chicken patty cooked to perfection, topped with fresh lettuce, ripe tomatoes, and a slice of cheese, all nestled between two soft, toasted buns. Savor the delightful blend of flavors and textures in every bite, making this burger a true treat for your taste buds. A must-try for chicken lovers who crave a delicious and satisfying meal!</string>
+
+    <string name="ice_tea_description">Ice tea is a refreshing and invigorating beverage that combines the natural flavors of tea with the cooling sensation of ice. It is often brewed with a hint of sweetness and tangy citrus notes, making it a perfect balance of sweet and tangy flavors. Served over ice, ice tea is a delightful drink that quenches thirst and satisfies taste buds, making it a popular choice for hot summer days or anytime you crave a refreshing sip.</string>
+
+    <string name="mojito_description">Mojito is a refreshing and invigorating cocktail that is perfect for a hot summer day. It is made with fresh mint leaves, lime juice, sugar, soda water, and white rum, resulting in a delightful combination of sweet, tangy, and fizzy flavors. Served over ice and garnished with a sprig of mint, it is a zesty and satisfying drink that is sure to quench your thirst and leave you feeling revitalized!</string>
 </resources>
