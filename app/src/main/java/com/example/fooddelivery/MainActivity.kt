@@ -18,6 +18,7 @@ import com.example.fooddelivery.ui.theme.*
 object Destinations {
     const val Home = "Home"
     const val Detail = "Detail"
+    const val AllFood = "AllFood"
 
     object DetailArgs {
         const val foodData = "foodData"
@@ -36,6 +37,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Destinations.Detail) {
                         DetailScreenScaffold(navController = navController)
+                    }
+                    composable(Destinations.AllFood) {
+                        AllFoodScreenScaffold(navController = navController)
                     }
                 })
             }

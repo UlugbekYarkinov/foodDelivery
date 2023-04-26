@@ -11,9 +11,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,7 +48,7 @@ fun HomeScreenScaffold(navController: NavController) {
                 .fillMaxSize()
                 .padding(start = 20.dp, top = 60.dp, end = 17.dp)
                 .verticalScroll(state = scrollState)) {
-                OrderNowBox()
+                OrderNowBox(navController)
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -131,7 +128,7 @@ fun Header() {
 }
 
 @Composable
-fun OrderNowBox() {
+fun OrderNowBox(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -156,6 +153,7 @@ fun OrderNowBox() {
                     modifier = Modifier
                         .size(width = 126.dp, height = 40.dp)
                         .clip(RoundedCornerShape(10.dp))
+                        .clickable { navController.navigate(Destinations.AllFood) }
                         .background(Yellow500),
                     contentAlignment = Alignment.Center
                 ) {
