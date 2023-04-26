@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fooddelivery.ui.theme.*
 
@@ -34,9 +35,7 @@ import com.example.fooddelivery.ui.theme.*
 @Composable
 fun HomeScreenScaffold(navController: NavController) {
     val scrollState = rememberScrollState()
-    val selectedIndex = remember {
-        mutableStateOf(0)
-    }
+    val selectedIndex = viewModel<HomeScreenViewModel>()
 
     Scaffold(
 
@@ -178,7 +177,7 @@ fun OrderNowBox() {
 }
 
 @Composable
-fun CategoryList(categories: List<CategoryData>, selectedIndex: MutableState<Int>) {
+fun CategoryList(categories: List<CategoryData>, selectedIndex: HomeScreenViewModel) {
 
     LazyRow(
         modifier = Modifier
@@ -195,16 +194,16 @@ fun CategoryList(categories: List<CategoryData>, selectedIndex: MutableState<Int
     }
 }
 @Composable
-fun CategoryItem(categoryData: CategoryData, selectedIndex: MutableState<Int>, index: Int) {
+fun CategoryItem(categoryData: CategoryData, selectedIndex: HomeScreenViewModel, index: Int) {
     Box(
         modifier = Modifier
             .size(width = 106.dp, height = 146.dp)
             .clip(RoundedCornerShape(16.dp))
             .clickable {
-                selectedIndex.value = index
+                selectedIndex.updateSelectedIndex(index)
             }
             .background(
-                if (selectedIndex.value == index) Yellow500 else CardItemBg
+                if (selectedIndex.getSelectedIndex() == index) Yellow500 else CardItemBg
             ),
         contentAlignment = Alignment.Center
     ) {
@@ -213,22 +212,22 @@ fun CategoryItem(categoryData: CategoryData, selectedIndex: MutableState<Int>, i
                 painter = painterResource(id = categoryData.redId),
                 contentDescription = categoryData.title,
                 modifier = Modifier.size(48.dp),
-                tint = if(selectedIndex.value == index) Color.White else BlackTextColor
+                tint = if(selectedIndex.getSelectedIndex() == index) Color.White else BlackTextColor
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = categoryData.title,
                 style = Typography.bodyLarge,
                 fontSize = 18.sp,
-                color = if(selectedIndex.value == index) Color.White else BlackTextColor
+                color = if(selectedIndex.getSelectedIndex() == index) Color.White else BlackTextColor
             )
         }
     }
 }
 
 @Composable
-fun BestPriceCategory(selectedIndex: MutableState<Int>, navController: NavController) {
-    when(selectedIndex.value) {
+fun BestPriceCategory(selectedIndex: HomeScreenViewModel, navController: NavController) {
+    when(selectedIndex.getSelectedIndex()) {
         0 -> {
             BestPriceList(
                 bestPriceList = listOf(
