@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
@@ -103,23 +104,13 @@ fun Header() {
             bgColor = Yellow500,
             description = "Menu"
         )
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = R.drawable.location),
-                contentDescription = "Location",
-                modifier = Modifier.size(16.dp),
-                tint = Orange500
+        Text(
+            text = "FOOD DELIVERY",
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "California, US")
-            Spacer(modifier = Modifier.width(8.dp))
-            Icon(
-                painter = painterResource(id = R.drawable.arrow_down),
-                contentDescription = "Location",
-                modifier = Modifier.size(16.dp),
-                tint = Orange500
-            )
-        }
+        )
         BoxWithRes(
             resId = R.drawable.search,
             description = "Search"
@@ -167,8 +158,8 @@ fun OrderNowBox(navController: NavController) {
                 }
             }
             Image(
-                painter = painterResource(id = R.drawable.man),
-                contentDescription = "Man",
+                painter = painterResource(id = R.drawable.food_delivery),
+                contentDescription = "food delivery",
                 modifier = Modifier.size(156.dp))
         }
     }
