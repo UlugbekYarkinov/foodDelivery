@@ -31,6 +31,7 @@ import com.example.fooddelivery.R
 import com.example.fooddelivery.data.BestPriceData
 import com.example.fooddelivery.data.CategoryData
 import com.example.fooddelivery.ui.theme.*
+import com.google.firebase.auth.FirebaseAuth
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +45,7 @@ fun HomeScreenScaffold(navController: NavController) {
         topBar = {
             // App bar content
             Box(modifier = Modifier.padding(start = 20.dp, top = 10.dp, end = 20.dp)) {
-                Header()
+                Header(navController)
             }
         },
         content = {
@@ -95,7 +96,7 @@ fun HomeScreenScaffold(navController: NavController) {
 }
 
 @Composable
-fun Header() {
+fun Header(navController: NavController) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -104,9 +105,13 @@ fun Header() {
             .padding(end = 13.dp)
     ) {
         BoxWithRes(
-            resId = R.drawable.menu,
+            resId = R.drawable.logout,
             bgColor = Yellow500,
-            description = "Menu"
+            description = "Menu",
+            onButtonClick = {
+                FirebaseAuth.getInstance().signOut()
+                navController.popBackStack()
+            }
         )
         Text(
             text = "FOOD DELIVERY",
