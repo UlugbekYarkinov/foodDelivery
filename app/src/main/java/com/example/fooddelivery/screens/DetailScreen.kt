@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.fooddelivery.data.BestPriceData
-import com.example.fooddelivery.BoxWithRes
+import com.example.fooddelivery.components.BoxWithRes
 import com.example.fooddelivery.Destinations
 import com.example.fooddelivery.R
 import com.example.fooddelivery.ui.theme.*

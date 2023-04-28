@@ -1,4 +1,4 @@
-package com.example.fooddelivery
+package com.example.fooddelivery.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

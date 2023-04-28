@@ -28,6 +28,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fooddelivery.*
 import com.example.fooddelivery.R
+import com.example.fooddelivery.components.BoxWithRes
+import com.example.fooddelivery.components.getFood
 import com.example.fooddelivery.data.BestPriceData
 import com.example.fooddelivery.data.CategoryData
 import com.example.fooddelivery.ui.theme.*

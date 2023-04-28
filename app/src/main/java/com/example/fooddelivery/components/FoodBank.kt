@@ -1,7 +1,8 @@
-package com.example.fooddelivery
+package com.example.fooddelivery.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.example.fooddelivery.R
 import com.example.fooddelivery.data.BestPriceData
 
 @Composable
