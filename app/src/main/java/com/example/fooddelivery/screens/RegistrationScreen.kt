@@ -1,6 +1,5 @@
 package com.example.fooddelivery.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -11,7 +10,8 @@ import com.example.fooddelivery.Destinations
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun LoginScreen(navController: NavController) {
+
+fun RegistrationScreen(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
@@ -32,7 +32,7 @@ fun LoginScreen(navController: NavController) {
         )
         Button(
             onClick = {
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             navController.navigate(Destinations.Home)
@@ -43,18 +43,11 @@ fun LoginScreen(navController: NavController) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Log in")
+            Text("Register")
         }
         if (error.isNotEmpty()) {
             Text(error, color = MaterialTheme.colorScheme.error)
-        } else {
-            Text(text = "")
         }
-        Text(text = "If you have no account go to Register", modifier = Modifier.clickable {
-            navController.navigate(Destinations.Register)
-        })
     }
-
-
 
 }
