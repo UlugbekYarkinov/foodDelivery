@@ -1,4 +1,4 @@
-package com.example.fooddelivery.screens
+package com.example.fooddelivery.screens.authentication
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
@@ -20,7 +20,8 @@ import com.google.firebase.auth.FirebaseAuth
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavController) {
+
+fun RegistrationScreen(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
@@ -30,7 +31,9 @@ fun LoginScreen(navController: NavController) {
         topBar = {
             // App bar content
             Row(
-                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -48,8 +51,7 @@ fun LoginScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(horizontal = 20.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
+                verticalArrangement = Arrangement.Center) {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
@@ -65,9 +67,18 @@ fun LoginScreen(navController: NavController) {
                     visualTransformation = PasswordVisualTransformation()
                 )
                 Spacer(modifier = Modifier.height(30.dp))
+                if (error.isNotEmpty()) {
+                    Text(
+                        error,
+                        color = MaterialTheme.colorScheme.error,
+                        style = TextStyle(fontSize = 14.sp)
+                    )
+                } else {
+                    Text(text = "")
+                }
                 Button(
                     onClick = {
-                        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     navController.navigate(Destinations.Home)
@@ -81,29 +92,20 @@ fun LoginScreen(navController: NavController) {
                         containerColor = Yellow500
                     )
                 ) {
-                    Text("Log in", style = TextStyle(fontSize = 20.sp))
-                }
-                if (error.isNotEmpty()) {
-                    Text(
-                        error,
-                        color = MaterialTheme.colorScheme.error,
-                        style = TextStyle(fontSize = 14.sp)
-                    )
-                } else {
-                    Text(text = "")
+                    Text("Register", style = TextStyle(fontSize = 20.sp))
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "If you have no account go to ",
+                        text = "Back to ",
                         style = TextStyle(fontSize = 14.sp)
                     )
                     Text(
-                        text = "Register",
+                        text = "Login",
                         modifier = Modifier.clickable {
-                            navController.navigate(Destinations.Register)
+                            navController.popBackStack()
                         },
                         style = TextStyle(
                             color = Color.Blue,
@@ -114,9 +116,5 @@ fun LoginScreen(navController: NavController) {
             }
         },
     )
-
-
-
-
 
 }

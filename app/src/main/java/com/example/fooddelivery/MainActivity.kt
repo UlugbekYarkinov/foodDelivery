@@ -14,6 +14,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fooddelivery.screens.*
+import com.example.fooddelivery.screens.authentication.LoginScreen
+import com.example.fooddelivery.screens.authentication.RegistrationScreen
 import com.example.fooddelivery.ui.theme.*
 
 object Destinations {

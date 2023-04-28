@@ -1,4 +1,4 @@
-package com.example.fooddelivery.screens
+package com.example.fooddelivery.screens.authentication
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
@@ -20,8 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-
-fun RegistrationScreen(navController: NavController) {
+fun LoginScreen(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
@@ -31,9 +30,7 @@ fun RegistrationScreen(navController: NavController) {
         topBar = {
             // App bar content
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
+                modifier = Modifier.fillMaxWidth().padding(10.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -51,7 +48,8 @@ fun RegistrationScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(horizontal = 20.dp),
-                verticalArrangement = Arrangement.Center) {
+                verticalArrangement = Arrangement.Center
+            ) {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
@@ -67,9 +65,16 @@ fun RegistrationScreen(navController: NavController) {
                     visualTransformation = PasswordVisualTransformation()
                 )
                 Spacer(modifier = Modifier.height(30.dp))
+                if (error.isNotEmpty()) {
+                    Text(
+                        error,
+                        color = MaterialTheme.colorScheme.error,
+                        style = TextStyle(fontSize = 14.sp)
+                    )
+                }
                 Button(
                     onClick = {
-                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     navController.navigate(Destinations.Home)
@@ -83,29 +88,20 @@ fun RegistrationScreen(navController: NavController) {
                         containerColor = Yellow500
                     )
                 ) {
-                    Text("Register", style = TextStyle(fontSize = 20.sp))
-                }
-                if (error.isNotEmpty()) {
-                    Text(
-                        error,
-                        color = MaterialTheme.colorScheme.error,
-                        style = TextStyle(fontSize = 14.sp)
-                    )
-                } else {
-                    Text(text = "")
+                    Text("Log in", style = TextStyle(fontSize = 20.sp))
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Back to ",
+                        text = "If you have no account go to ",
                         style = TextStyle(fontSize = 14.sp)
                     )
                     Text(
-                        text = "Login",
+                        text = "Register",
                         modifier = Modifier.clickable {
-                            navController.popBackStack()
+                            navController.navigate(Destinations.Register)
                         },
                         style = TextStyle(
                             color = Color.Blue,
@@ -116,5 +112,9 @@ fun RegistrationScreen(navController: NavController) {
             }
         },
     )
+
+
+
+
 
 }
