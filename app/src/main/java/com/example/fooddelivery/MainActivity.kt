@@ -16,12 +16,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fooddelivery.screens.AllFoodScreenScaffold
 import com.example.fooddelivery.screens.DetailScreenScaffold
 import com.example.fooddelivery.screens.HomeScreenScaffold
+import com.example.fooddelivery.screens.LoginScreen
 import com.example.fooddelivery.ui.theme.*
 
 object Destinations {
     const val Home = "Home"
     const val Detail = "Detail"
     const val AllFood = "AllFood"
+    const val LogIn = "LogIn"
 
     object DetailArgs {
         const val foodData = "foodData"
@@ -34,7 +36,10 @@ class MainActivity : ComponentActivity() {
             FoodDeliveryTheme {
                 val navController = rememberNavController()
 
-                NavHost(navController = navController, startDestination = Destinations.Home, builder = {
+                NavHost(navController = navController, startDestination = Destinations.LogIn, builder = {
+                    composable(Destinations.LogIn) {
+                        LoginScreen(navController = navController)
+                    }
                     composable(Destinations.Home) {
                         HomeScreenScaffold(navController = navController)
                     }
