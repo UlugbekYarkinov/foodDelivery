@@ -1,4 +1,4 @@
-package com.example.fooddelivery
+package com.example.fooddelivery.screens
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

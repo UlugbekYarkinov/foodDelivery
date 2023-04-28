@@ -13,6 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.fooddelivery.screens.AllFoodScreenScaffold
+import com.example.fooddelivery.screens.DetailScreenScaffold
+import com.example.fooddelivery.screens.HomeScreenScaffold
 import com.example.fooddelivery.ui.theme.*
 
 object Destinations {

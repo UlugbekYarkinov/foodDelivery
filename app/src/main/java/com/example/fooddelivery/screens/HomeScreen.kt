@@ -1,4 +1,4 @@
-package com.example.fooddelivery
+package com.example.fooddelivery.screens
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -26,6 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.fooddelivery.*
+import com.example.fooddelivery.R
+import com.example.fooddelivery.data.BestPriceData
+import com.example.fooddelivery.data.CategoryData
 import com.example.fooddelivery.ui.theme.*
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

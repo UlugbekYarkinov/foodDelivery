@@ -2,6 +2,7 @@ package com.example.fooddelivery
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.example.fooddelivery.data.BestPriceData
 
 @Composable
 fun getFood(label: String): BestPriceData {

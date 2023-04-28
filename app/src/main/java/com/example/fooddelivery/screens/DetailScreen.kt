@@ -1,4 +1,4 @@
-package com.example.fooddelivery
+package com.example.fooddelivery.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -21,6 +21,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.fooddelivery.data.BestPriceData
+import com.example.fooddelivery.BoxWithRes
+import com.example.fooddelivery.Destinations
+import com.example.fooddelivery.R
 import com.example.fooddelivery.ui.theme.*
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -30,7 +34,9 @@ fun DetailScreenScaffold(navController: NavController) {
     val scrollState = rememberScrollState()
     var numberOfMeal by remember { mutableStateOf(1) }
 
-    val data = navController.previousBackStackEntry?.arguments?.getParcelable<BestPriceData>(Destinations.DetailArgs.foodData)
+    val data = navController.previousBackStackEntry?.arguments?.getParcelable<BestPriceData>(
+        Destinations.DetailArgs.foodData
+    )
 
     Scaffold(
         topBar = {

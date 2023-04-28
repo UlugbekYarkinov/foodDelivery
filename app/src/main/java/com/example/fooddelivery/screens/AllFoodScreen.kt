@@ -1,4 +1,4 @@
-package com.example.fooddelivery
+package com.example.fooddelivery.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.fooddelivery.R
+import com.example.fooddelivery.getFood
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
