@@ -30,7 +30,9 @@ fun LoginScreen(navController: NavController) {
         topBar = {
             // App bar content
             Row(
-                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -74,14 +76,18 @@ fun LoginScreen(navController: NavController) {
                 }
                 Button(
                     onClick = {
-                        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    navController.navigate(Destinations.Home)
-                                } else {
-                                    error = task.exception?.localizedMessage ?: "Unknown error"
+                        if (email.isNotEmpty() and password.isNotEmpty()) {
+                            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        navController.navigate(Destinations.Home)
+                                    } else {
+                                        error = task.exception?.localizedMessage ?: "Unknown error"
+                                    }
                                 }
-                            }
+                        } else {
+                            error = "Please fill both email and password fields"
+                        }
                     },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
@@ -112,9 +118,6 @@ fun LoginScreen(navController: NavController) {
             }
         },
     )
-
-
-
 
 
 }
