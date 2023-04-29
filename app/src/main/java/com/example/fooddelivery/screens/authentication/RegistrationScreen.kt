@@ -51,7 +51,8 @@ fun RegistrationScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(horizontal = 20.dp),
-                verticalArrangement = Arrangement.Center) {
+                verticalArrangement = Arrangement.Center
+            ) {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
@@ -78,14 +79,19 @@ fun RegistrationScreen(navController: NavController) {
                 }
                 Button(
                     onClick = {
-                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    navController.navigate(Destinations.Home)
-                                } else {
-                                    error = task.exception?.localizedMessage ?: "Unknown error"
+                        if (email.isNotEmpty() and password.isNotEmpty()) {
+                            FirebaseAuth.getInstance()
+                                .createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        navController.navigate(Destinations.Home)
+                                    } else {
+                                        error = task.exception?.localizedMessage ?: "Unknown error"
+                                    }
                                 }
-                            }
+                        } else {
+                            error = "Please fill both email and password fields"
+                        }
                     },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
