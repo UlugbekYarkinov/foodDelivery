@@ -50,7 +50,10 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(Destinations.Register) {
-                            RegistrationScreen(navController = navController)
+                            RegistrationScreen(
+                                navController = navController,
+                                orderListViewModel = orderViewModel
+                            )
                         }
                         composable(Destinations.Home) {
                             HomeScreenScaffold(navController = navController)
