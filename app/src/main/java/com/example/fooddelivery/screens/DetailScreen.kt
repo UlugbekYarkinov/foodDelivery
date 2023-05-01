@@ -5,6 +5,7 @@ package com.example.fooddelivery.screens
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
@@ -27,12 +28,13 @@ import com.example.fooddelivery.data.BestPriceData
 import com.example.fooddelivery.components.BoxWithRes
 import com.example.fooddelivery.Destinations
 import com.example.fooddelivery.R
+import com.example.fooddelivery.screens.viewmodels.OrderViewModel
 import com.example.fooddelivery.ui.theme.*
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreenScaffold(navController: NavController) {
+fun DetailScreenScaffold(navController: NavController, orderViewModel: OrderViewModel) {
     val scrollState = rememberScrollState()
     var numberOfMeal by remember { mutableStateOf(1) }
 
@@ -68,7 +70,7 @@ fun DetailScreenScaffold(navController: NavController) {
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(80.dp)
+                            .height(100.dp)
                     ) {
                         Column(verticalArrangement = Arrangement.SpaceBetween) {
                             Text(
@@ -172,9 +174,14 @@ fun DetailScreenScaffold(navController: NavController) {
         floatingActionButton = {
             // FAB content
             FloatingActionButton(
-                onClick = { /* Handle FAB click */ },
+                onClick = {
+                    if (data != null) {
+                        for (i in 1..numberOfMeal)
+                            orderViewModel.addFoodId(data.title)
+                    }
+                },
                 modifier = Modifier.padding(16.dp),
-                containerColor =  Color(0xFFFDC913)
+                containerColor = Color(0xFFFDC913)
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
@@ -200,11 +207,14 @@ fun DetailHeader(navController: NavController) {
             }
         )
 
-        Box(modifier = Modifier
-            .size(40.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .background(CardItemBg),
-            contentAlignment = Alignment.Center) {
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(CardItemBg)
+                .clickable { navController.navigate(Destinations.OrderList) },
+            contentAlignment = Alignment.Center
+        ) {
             Box(modifier = Modifier.size(24.dp)) {
                 Icon(
                     painter = painterResource(id = R.drawable.bag),
@@ -220,10 +230,12 @@ fun DetailHeader(navController: NavController) {
                         .background(Color.White)
                         .align(Alignment.TopEnd)
                 ) {
-                    Box(modifier = Modifier
-                        .size(6.dp)
-                        .clip(CircleShape)
-                        .background(Yellow500)) {
+                    Box(
+                        modifier = Modifier
+                            .size(6.dp)
+                            .clip(CircleShape)
+                            .background(Yellow500)
+                    ) {
                     }
                 }
             }
@@ -323,18 +335,19 @@ fun DetailIngredientsBox(data: BestPriceData) {
             .padding(5.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        items(data.ingredients.size) {
-                index -> Box(modifier = Modifier
-            .size(56.dp)
-            .clip(RoundedCornerShape(10.dp)),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = data.ingredients[index]),
-                contentDescription = "",
-                modifier = Modifier.size(width = 46.dp, height = 36.dp)
-            )
-        }
+        items(data.ingredients.size) { index ->
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(RoundedCornerShape(10.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(id = data.ingredients[index]),
+                    contentDescription = "",
+                    modifier = Modifier.size(width = 46.dp, height = 36.dp)
+                )
+            }
         }
     }
 }

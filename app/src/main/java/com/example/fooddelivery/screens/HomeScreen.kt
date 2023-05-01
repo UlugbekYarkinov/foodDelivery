@@ -52,10 +52,12 @@ fun HomeScreenScaffold(navController: NavController) {
         },
         content = {
             // Body content
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 20.dp, top = 60.dp, end = 17.dp)
-                .verticalScroll(state = scrollState)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 20.dp, top = 60.dp, end = 17.dp)
+                    .verticalScroll(state = scrollState)
+            ) {
                 OrderNowBox(navController)
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -137,7 +139,8 @@ fun OrderNowBox(navController: NavController) {
             .height(156.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(Yellow200)
-            .padding(24.dp)) {
+            .padding(24.dp)
+    ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -171,7 +174,8 @@ fun OrderNowBox(navController: NavController) {
             Image(
                 painter = painterResource(id = R.drawable.food_delivery),
                 contentDescription = "food delivery",
-                modifier = Modifier.size(156.dp))
+                modifier = Modifier.size(156.dp)
+            )
         }
     }
 }
@@ -183,16 +187,18 @@ fun CategoryList(categories: List<CategoryData>, selectedIndex: HomeScreenViewMo
         modifier = Modifier
             .fillMaxWidth()
             .padding(end = 13.dp),
-        horizontalArrangement = Arrangement.SpaceBetween) {
-        items(categories.size) {
-                index ->  CategoryItem(
-            categoryData = categories[index],
-            selectedIndex = selectedIndex,
-            index = index
-        )
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        items(categories.size) { index ->
+            CategoryItem(
+                categoryData = categories[index],
+                selectedIndex = selectedIndex,
+                index = index
+            )
         }
     }
 }
+
 @Composable
 fun CategoryItem(categoryData: CategoryData, selectedIndex: HomeScreenViewModel, index: Int) {
     Box(
@@ -212,14 +218,14 @@ fun CategoryItem(categoryData: CategoryData, selectedIndex: HomeScreenViewModel,
                 painter = painterResource(id = categoryData.redId),
                 contentDescription = categoryData.title,
                 modifier = Modifier.size(48.dp),
-                tint = if(selectedIndex.getSelectedIndex() == index) Color.White else BlackTextColor
+                tint = if (selectedIndex.getSelectedIndex() == index) Color.White else BlackTextColor
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = categoryData.title,
                 style = Typography.bodyLarge,
                 fontSize = 18.sp,
-                color = if(selectedIndex.getSelectedIndex() == index) Color.White else BlackTextColor
+                color = if (selectedIndex.getSelectedIndex() == index) Color.White else BlackTextColor
             )
         }
     }
@@ -227,7 +233,7 @@ fun CategoryItem(categoryData: CategoryData, selectedIndex: HomeScreenViewModel,
 
 @Composable
 fun BestPriceCategory(selectedIndex: HomeScreenViewModel, navController: NavController) {
-    when(selectedIndex.getSelectedIndex()) {
+    when (selectedIndex.getSelectedIndex()) {
         0 -> {
             BestPriceList(
                 bestPriceList = listOf(
@@ -237,11 +243,12 @@ fun BestPriceCategory(selectedIndex: HomeScreenViewModel, navController: NavCont
                 navController = navController
             )
         }
+
         1 -> {
             BestPriceList(
                 bestPriceList = listOf(
-                    getFood(label = stringResource(id = R.string.hamburger_with_cheese_description)),
-                    getFood(label = stringResource(id = R.string.hamburger_with_chicken_description))
+                    getFood(label = stringResource(id = R.string.hamburger_with_cheese_title)),
+                    getFood(label = stringResource(id = R.string.hamburger_with_chicken_title))
                 ),
                 navController = navController
             )
@@ -250,8 +257,8 @@ fun BestPriceCategory(selectedIndex: HomeScreenViewModel, navController: NavCont
         2 -> {
             BestPriceList(
                 bestPriceList = listOf(
-                    getFood(label = stringResource(id = R.string.ice_tea_description)),
-                    getFood(label = stringResource(id = R.string.mojito_description))
+                    getFood(label = stringResource(id = R.string.ice_tea_title)),
+                    getFood(label = stringResource(id = R.string.mojito_title))
                 ),
                 navController = navController
             )
@@ -261,24 +268,28 @@ fun BestPriceCategory(selectedIndex: HomeScreenViewModel, navController: NavCont
 
 @Composable
 fun BestPriceList(bestPriceList: List<BestPriceData>, navController: NavController) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
-        for(item in bestPriceList) {
+        for (item in bestPriceList) {
             BestPriceItem(bestPriceData = item, navController = navController)
             Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }
+
 @Composable
 fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(176.dp)) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(186.dp)
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(176.dp)
+                .height(186.dp)
                 .padding(end = 13.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
@@ -298,7 +309,7 @@ fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
                     Image(
                         painter = painterResource(id = R.drawable.crown),
                         contentDescription = "Crown",
-                        modifier = Modifier.size(34.dp)
+                        modifier = Modifier.size(30.dp)
                     )
 
                     Spacer(modifier = Modifier.width(11.dp))
@@ -313,7 +324,7 @@ fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
             }
 
             Box(
-                modifier = Modifier.height(40.dp),
+                modifier = Modifier.height(50.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -376,7 +387,11 @@ fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
 
                     Spacer(modifier = Modifier.width(8.dp))
 
-                    Text(text = "${bestPriceData.rate}", style = Typography.bodyLarge, color = BlackTextColor)
+                    Text(
+                        text = "${bestPriceData.rate}",
+                        style = Typography.bodyLarge,
+                        color = BlackTextColor
+                    )
                 }
             }
         }

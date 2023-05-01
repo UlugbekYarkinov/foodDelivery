@@ -1,5 +1,6 @@
 package com.example.fooddelivery.components
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.example.fooddelivery.R
@@ -7,7 +8,8 @@ import com.example.fooddelivery.data.BestPriceData
 
 @Composable
 fun getFood(label: String): BestPriceData {
-    return when(label) {
+    Log.d("FoodBank", "Label is $label")
+    return when (label) {
         stringResource(id = R.string.salad_pesto_pizza_title) -> {
             BestPriceData(
                 R.drawable.salad_pesto_pizza,
@@ -26,6 +28,7 @@ fun getFood(label: String): BestPriceData {
                 )
             )
         }
+
         stringResource(id = R.string.primavera_pizza_title) -> {
             BestPriceData(
                 R.drawable.primavera_pizza,
@@ -44,10 +47,11 @@ fun getFood(label: String): BestPriceData {
                 )
             )
         }
-        stringResource(id = R.string.hamburger_with_cheese_description) -> {
+
+        stringResource(id = R.string.hamburger_with_cheese_title) -> {
             BestPriceData(
                 R.drawable.hamburger_with_cheese,
-                title = "Burger & cheese",
+                title = stringResource(id = R.string.hamburger_with_cheese_title),
                 description = stringResource(id = R.string.hamburger_with_cheese_description),
                 price = 4.99,
                 calorie = 340.0,
@@ -62,10 +66,11 @@ fun getFood(label: String): BestPriceData {
                 )
             )
         }
-        stringResource(id = R.string.hamburger_with_chicken_description) -> {
+
+        stringResource(id = R.string.hamburger_with_chicken_title) -> {
             BestPriceData(
                 R.drawable.hamburger_with_chicken,
-                title = "Burger & chicken",
+                title = stringResource(id = R.string.hamburger_with_chicken_title),
                 description = stringResource(id = R.string.hamburger_with_chicken_description),
                 price = 3.55,
                 calorie = 240.0,
@@ -80,10 +85,11 @@ fun getFood(label: String): BestPriceData {
                 )
             )
         }
-        stringResource(id = R.string.ice_tea_description) -> {
+
+        stringResource(id = R.string.ice_tea_title) -> {
             BestPriceData(
                 R.drawable.ice_tea,
-                title = "Ice tea",
+                title = stringResource(id = R.string.ice_tea_title),
                 description = stringResource(id = R.string.ice_tea_description),
                 price = 2.49,
                 calorie = 40.0,
@@ -96,10 +102,11 @@ fun getFood(label: String): BestPriceData {
                 )
             )
         }
-        stringResource(id = R.string.mojito_description) -> {
+
+        stringResource(id = R.string.mojito_title) -> {
             BestPriceData(
                 R.drawable.mahito,
-                title = "Mojito",
+                title = stringResource(id = R.string.mojito_title),
                 description = stringResource(id = R.string.mojito_description),
                 price = 3.89,
                 calorie = 50.0,
@@ -112,6 +119,7 @@ fun getFood(label: String): BestPriceData {
                 )
             )
         }
+
         else -> {
             BestPriceData(
                 R.drawable.mahito,

@@ -14,14 +14,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.fooddelivery.Destinations
+import com.example.fooddelivery.screens.viewmodels.OrderViewModel
 import com.example.fooddelivery.ui.theme.Yellow500
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 
-fun RegistrationScreen(navController: NavController) {
+fun RegistrationScreen(navController: NavController, orderListViewModel: OrderViewModel) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
@@ -37,11 +39,8 @@ fun RegistrationScreen(navController: NavController) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "FOOD DELIVERY",
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        color = Yellow500
+                    text = "FOOD DELIVERY", style = TextStyle(
+                        fontWeight = FontWeight.Bold, fontSize = 24.sp, color = Yellow500
                     )
                 )
             }
@@ -51,7 +50,8 @@ fun RegistrationScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(horizontal = 20.dp),
-                verticalArrangement = Arrangement.Center) {
+                verticalArrangement = Arrangement.Center
+            ) {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
@@ -78,38 +78,52 @@ fun RegistrationScreen(navController: NavController) {
                 }
                 Button(
                     onClick = {
-                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    navController.navigate(Destinations.Home)
-                                } else {
-                                    error = task.exception?.localizedMessage ?: "Unknown error"
+                        if (email.isNotEmpty() and password.isNotEmpty()) {
+                            FirebaseAuth.getInstance()
+                                .createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        // add user email to order list for identification
+                                        orderListViewModel.setUpUser(email)
+
+                                        // set up database instance for authenticated user
+                                        orderListViewModel.setUpDBInstance(
+                                            FirebaseDatabase.getInstance(
+                                                Destinations.firebaseDatabaseUrl
+                                            )
+                                        )
+
+                                        // set up orders in the DB
+                                        val usersRef =
+                                            orderListViewModel.getDBRef()?.getReference("users")
+                                        usersRef?.child(email.replace("@", "_").replace(".", "-"))
+                                            ?.child("orders")
+
+                                        navController.navigate(Destinations.Home)
+                                    } else {
+                                        error = task.exception?.localizedMessage ?: "Unknown error"
+                                    }
                                 }
-                            }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(
+                        } else {
+                            error = "Please fill both email and password fields"
+                        }
+                    }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(
                         containerColor = Yellow500
                     )
                 ) {
                     Text("Register", style = TextStyle(fontSize = 20.sp))
                 }
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Back to ",
-                        style = TextStyle(fontSize = 14.sp)
+                        text = "Back to ", style = TextStyle(fontSize = 14.sp)
                     )
                     Text(
-                        text = "Login",
-                        modifier = Modifier.clickable {
+                        text = "Login", modifier = Modifier.clickable {
                             navController.popBackStack()
-                        },
-                        style = TextStyle(
-                            color = Color.Blue,
-                            fontSize = 14.sp
+                        }, style = TextStyle(
+                            color = Color.Blue, fontSize = 14.sp
                         )
                     )
                 }

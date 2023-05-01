@@ -29,19 +29,20 @@ fun AllFoodScreenScaffold(navController: NavController) {
         },
         content = {
             // Body content
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 20.dp, top = 60.dp, end = 17.dp)
-                .verticalScroll(state = scrollState)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 20.dp, top = 60.dp, end = 17.dp)
+                    .verticalScroll(state = scrollState)
             ) {
                 BestPriceList(
                     bestPriceList = listOf(
                         getFood(label = stringResource(id = R.string.salad_pesto_pizza_title)),
                         getFood(label = stringResource(id = R.string.primavera_pizza_title)),
-                        getFood(label = stringResource(id = R.string.hamburger_with_cheese_description)),
-                        getFood(label = stringResource(id = R.string.hamburger_with_chicken_description)),
-                        getFood(label = stringResource(id = R.string.ice_tea_description)),
-                        getFood(label = stringResource(id = R.string.mojito_description))
+                        getFood(label = stringResource(id = R.string.hamburger_with_cheese_title)),
+                        getFood(label = stringResource(id = R.string.hamburger_with_chicken_title)),
+                        getFood(label = stringResource(id = R.string.ice_tea_title)),
+                        getFood(label = stringResource(id = R.string.mojito_title))
                     ),
                     navController = navController
                 )
