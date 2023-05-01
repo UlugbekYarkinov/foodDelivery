@@ -1,32 +1,36 @@
 package com.example.fooddelivery.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.fooddelivery.components.getFood
 import com.example.fooddelivery.data.BestPriceData
 import com.example.fooddelivery.screens.viewmodels.OrderViewModel
+import com.example.fooddelivery.ui.theme.CardItemBg
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrderScreen(navController: NavController, orderViewModel: OrderViewModel) {
     val scrollState = rememberScrollState()
+    val orderListState = remember {
+        mutableStateOf(false)
+    }
 
     Scaffold(topBar = {
         // App bar content
@@ -41,10 +45,24 @@ fun OrderScreen(navController: NavController, orderViewModel: OrderViewModel) {
                 .padding(start = 20.dp, top = 60.dp, end = 17.dp)
                 .verticalScroll(state = scrollState)
         ) {
-            BestPriceList(
-                bestPriceList = orderFoodList(foodLabelList = orderViewModel.getFoodLabelList()),
-                navController = navController
-            )
+            if (orderListState.value) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(CardItemBg)
+                        .padding(15.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(text = "You Cart is Empty :)")
+                }
+            } else {
+                BestPriceList(
+                    bestPriceList = orderFoodList(foodLabelList = orderViewModel.getFoodLabelList()),
+                    navController = navController
+                )
+            }
         }
     }, floatingActionButton = {
         // FAB content
@@ -63,9 +81,10 @@ fun OrderScreen(navController: NavController, orderViewModel: OrderViewModel) {
                 userDB?.push()?.setValue(orderViewModel.getFoodLabelList())
                 // clear the cart
                 orderViewModel.clearList()
+                orderListState.value = true;
             }, modifier = Modifier.padding(16.dp), containerColor = Color(0xFFFDC913)
         ) {
-            Icon(Icons.Default.Add, contentDescription = "Add")
+            Icon(Icons.Default.ThumbUp, contentDescription = "Add")
         }
     })
 }
