@@ -70,7 +70,7 @@ fun DetailScreenScaffold(navController: NavController, orderViewModel: OrderView
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(80.dp)
+                            .height(100.dp)
                     ) {
                         Column(verticalArrangement = Arrangement.SpaceBetween) {
                             Text(

@@ -284,12 +284,12 @@ fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(176.dp)
+            .height(186.dp)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(176.dp)
+                .height(186.dp)
                 .padding(end = 13.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
@@ -309,7 +309,7 @@ fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
                     Image(
                         painter = painterResource(id = R.drawable.crown),
                         contentDescription = "Crown",
-                        modifier = Modifier.size(34.dp)
+                        modifier = Modifier.size(30.dp)
                     )
 
                     Spacer(modifier = Modifier.width(11.dp))
@@ -324,7 +324,7 @@ fun BestPriceItem(bestPriceData: BestPriceData, navController: NavController) {
             }
 
             Box(
-                modifier = Modifier.height(40.dp),
+                modifier = Modifier.height(50.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
