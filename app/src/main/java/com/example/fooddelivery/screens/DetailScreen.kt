@@ -176,7 +176,8 @@ fun DetailScreenScaffold(navController: NavController, orderViewModel: OrderView
             FloatingActionButton(
                 onClick = {
                     if (data != null) {
-                        orderViewModel.addFoodId(data.title)
+                        for (i in 1..numberOfMeal)
+                            orderViewModel.addFoodId(data.title)
                     }
                 },
                 modifier = Modifier.padding(16.dp),

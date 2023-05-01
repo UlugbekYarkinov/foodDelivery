@@ -14,13 +14,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.fooddelivery.Destinations
+import com.example.fooddelivery.screens.viewmodels.OrderViewModel
 import com.example.fooddelivery.ui.theme.Yellow500
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, orderListViewModel: OrderViewModel) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
@@ -77,10 +79,22 @@ fun LoginScreen(navController: NavController) {
                 Button(
                     onClick = {
                         if (email.isNotEmpty() and password.isNotEmpty()) {
+                            // clear order list
+                            orderListViewModel.clearList()
+
                             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
+                                        // add user email to order list for identification
+                                        orderListViewModel.setUpUser(email)
+                                        // go to homepage
                                         navController.navigate(Destinations.Home)
+                                        // set up database instance for authenticated user
+                                        orderListViewModel.setUpDBInstance(
+                                            FirebaseDatabase.getInstance(
+                                                Destinations.firebaseDatabaseUrl
+                                            )
+                                        )
                                     } else {
                                         error = task.exception?.localizedMessage ?: "Unknown error"
                                     }

@@ -23,6 +23,9 @@ object Destinations {
     const val Register = "Register"
     const val OrderList = "OrderList"
 
+    const val firebaseDatabaseUrl =
+        "https://fooddelivery-fafbe-default-rtdb.asia-southeast1.firebasedatabase.app"
+
     object DetailArgs {
         const val foodData = "foodData"
     }
@@ -41,7 +44,10 @@ class MainActivity : ComponentActivity() {
                     startDestination = Destinations.LogIn,
                     builder = {
                         composable(Destinations.LogIn) {
-                            LoginScreen(navController = navController)
+                            LoginScreen(
+                                navController = navController,
+                                orderListViewModel = orderViewModel
+                            )
                         }
                         composable(Destinations.Register) {
                             RegistrationScreen(navController = navController)
